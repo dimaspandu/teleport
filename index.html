@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Teleport</title>
+	</head>
+	<body>
+	    <div id="content">Dimensi Satu</div>
+	    <ul>
+	    	<li><a href="satu" title="Dimensi Satu">Satu</a></li>
+	    	<li><a href="dua" title="Dimensi Dua">Dua</a></li>
+	    	<li><a href="tiga" title="Dimensi Tiga">Tiga</a></li>
+	    </ul>
+		<script>
+			var content = document.getElementById("content");
+			var link = document.getElementsByTagName("a");
+
+			for(var l = 0; l<link.length; l++){
+				link[l].addEventListener("click", function (e){
+					e.preventDefault();
+
+					window.history.pushState({ dimension: this.getAttribute("href"), colony: this.getAttribute("title") }, this.getAttribute("title"), this.getAttribute("href"));
+
+					document.title = this.getAttribute("title");
+					content.innerHTML = this.getAttribute("title");
+					console.log(history.state);
+				}, false);
+			}
+
+			window.onpopstate = function (){
+				if(history.state !== null){
+					Object.keys(history.state).forEach(function (){
+						document.title = history.state.dimension;
+						content.innerHTML = history.state.colony;
+					});
+				}
+			}
+		</script>
+	</body>
+</html>
